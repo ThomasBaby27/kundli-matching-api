@@ -64,6 +64,20 @@ DATABASES = {
     }
 }
 
+# Configure Redis Caching for API optimization
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Points to local Redis on DB 1
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+# Set Cache Timeout (Optional helper: 1 hour in seconds)
+CACHE_TTL = 60 * 60
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
