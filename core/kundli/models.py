@@ -28,13 +28,12 @@ class MatchHistory(models.Model):
         on_delete=models.CASCADE, 
         related_name='female_matches'
     )
-    compatibility_score = models.IntegerField()  # Total points out of 36
-    verdict = models.CharField(max_length=20)     # Excellent / Good / Average / Not Recommended
-    breakdown = models.JSONField()               # Stores the individual 8 Koot scores dynamically
+    compatibility_score = models.IntegerField()  
+    verdict = models.CharField(max_length=20)     
+    breakdown = models.JSONField()               
     calculated_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        # Prevents duplicate records for the exact same couple pairing
         unique_together = ('male_profile', 'female_profile')
 
     def __str__(self):

@@ -15,7 +15,6 @@ class KundliMatchRequestSerializer(serializers.Serializer):
 class MatchHistorySerializer(serializers.ModelSerializer):
     male_name = serializers.CharField(source='male_profile.name', read_only=True)
     female_name = serializers.CharField(source='female_profile.name', read_only=True)
-
     class Meta:
         model = MatchHistory
         fields = [

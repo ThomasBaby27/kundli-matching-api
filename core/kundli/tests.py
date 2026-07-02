@@ -8,26 +8,23 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class KundliMatchAPITests(APITestCase):
 
     def setUp(self):
-        # Create a test user and generate a JWT token for authentication
         self.user = User.objects.create_user(username='testuser', password='password123')
         self.token = str(RefreshToken.for_user(self.user).access_token)
-        self.url = '/api/match/' # Make sure this matches your path name in urls.py
-        
-        # Clear cache before each test execution
+        self.url = '/api/match/' 
         cache.clear()
 
-        # Valid payload sample data matching your Postman structures
+        # Valid sample sample data matching your Postman 
         self.valid_payload = {
             "male": {
-                "name": "Rahul",
-                "date_of_birth": "1995-05-15",
+                "name": "Thomas",
+                "date_of_birth": "2004-03-27",
                 "time_of_birth": "08:30:00",
                 "latitude": 28.6139,
                 "longitude": 77.2090
             },
             "female": {
                 "name": "Priya",
-                "date_of_birth": "1997-08-22",
+                "date_of_birth": "2000-08-22",
                 "time_of_birth": "14:15:00",
                 "latitude": 19.0760,
                 "longitude": 72.8777
@@ -55,7 +52,7 @@ class KundliMatchAPITests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token)
         invalid_payload = {
             "male": {
-                "name": "Rahul"
+                "name": "Thomas"
                 # Missing required date, time, coordinates
             }
         }
@@ -66,11 +63,11 @@ class KundliMatchAPITests(APITestCase):
         """Test 4: Ensure the second matching request hit returns instantly from the cache layer"""
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token)
         
-        # First call hits the database/engine calculations
+        # First call the database calculations
         first_response = self.client.post(self.url, self.valid_payload, format='json')
         self.assertEqual(first_response.data['source'], 'calculated')
 
-        # Second identical call must fetch directly from the Redis cache layer
+        # Second identical call must fetch directly from the Redis cache 
         second_response = self.client.post(self.url, self.valid_payload, format='json')
         self.assertEqual(second_response.status_code, status.HTTP_200_OK)
         self.assertEqual(second_response.data['source'], 'cache')
