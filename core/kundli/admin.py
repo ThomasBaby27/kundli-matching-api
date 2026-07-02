@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import BirthProfile, MatchHistory
 
-# Register your models here.
+admin.site.register(BirthProfile)
+admin.site.register(MatchHistory)
